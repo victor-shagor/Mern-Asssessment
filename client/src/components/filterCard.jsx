@@ -7,6 +7,8 @@ const FilterCard = (props) => {
     <div
       className="bg-white shadow row justify-content-center p-md-2 p-2 mb-3 pb-3"
       style={{ borderRadius: "10px", width: "55vw" }}
+      onClick={props.onClick}
+      id={props.id}
     >
       <div
         style={{

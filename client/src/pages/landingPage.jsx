@@ -1,29 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { fetchFilter } from "../services";
+import React, { useEffect } from "react";
 import FilterCard from "../components/filterCard";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchFilters } from "../state/action";
+import { useHistory } from "react-router-dom";
 
 const LandingPage = () => {
-  const [filterLoading, setFilterLoading] = useState(false);
-  const [filter, setFilter] = useState([]);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const filter = useSelector((state) => state.filter);
   useEffect(() => {
-    (async () => {
-      try {
-        setFilterLoading(true);
-        const filter = await fetchFilter();
-        console.log(filter);
-        if (filter) {
-          setFilterLoading(false);
-          setFilter(filter.data);
-        }
-      } catch (error) {
-        setFilterLoading(false);
-        let err = error.data
-          ? error.data.message
-          : "Something went wrong, try again later";
-        // Swal.fire("Error", err, "error");
-      }
-    })();
-  }, []);
+    dispatch(fetchFilters());
+  }, [dispatch]);
+  const click = (start_year, end_year, gender, countries, colors) => {
+    const filterObj = {
+      start_year,
+      end_year,
+      gender,
+      countries,
+      colors,
+    };
+    localStorage.setItem("filterObj", JSON.stringify(filterObj));
+    history.push("/carowner");
+  };
   return (
     <>
       <div className="row mt-2 ml-n5">
@@ -34,16 +32,27 @@ const LandingPage = () => {
       </div>
       <div className="row mt-1">
         <div className="mx-auto">
-          {filter.map((res, index) => (
-            <FilterCard
-              key={index}
-              gender={res.gender}
-              start_year={res.start_year}
-              end_year={res.end_year}
-              countries={res.countries}
-              colors={res.colors}
-            />
-          ))}
+          {filter &&
+            filter.map((res, index) => (
+              <FilterCard
+                key={index}
+                onClick={() =>
+                  click(
+                    res.start_year,
+                    res.end_year,
+                    res.gender,
+                    res.countries,
+                    res.colors
+                  )
+                }
+                gender={res.gender}
+                start_year={res.start_year}
+                end_year={res.end_year}
+                countries={res.countries}
+                colors={res.colors}
+                id={res.id}
+              />
+            ))}
         </div>
       </div>
     </>

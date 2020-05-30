@@ -1,0 +1,137 @@
+import React, { useEffect, useState } from "react";
+import OwnerCard from "../components/ownerCard";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchOwners } from "../state/action";
+import Pagenation from "../components/pagination";
+import { gotoPage, previous, next } from "../state/action";
+
+const OwnersPage = () => {
+  const dispatch = useDispatch();
+  const [pageToGo, setPageToGo] = useState();
+  const owners = useSelector((state) => state.owners);
+  const startIndex = useSelector((state) => state.startIndex);
+  const count = useSelector((state) => state.count);
+  const page = useSelector((state) => state);
+  const sliceIndex = localStorage.startIndex
+    ? localStorage.startIndex
+    : startIndex;
+  console.log(page);
+  useEffect(() => {
+    const filterObj = localStorage.getItem("filterObj");
+    dispatch(fetchOwners(JSON.parse(filterObj)));
+  }, []);
+  return (
+    <>
+      <div className="row mt-3">
+        <div className="mx-auto">
+          {owners &&
+            owners
+              .slice(sliceIndex, sliceIndex + 10)
+              .map((res, index) => (
+                <OwnerCard
+                  key={index}
+                  first_name={res.first_name}
+                  last_name={res.last_name}
+                  gender={res.gender}
+                  bio={res.bio}
+                  car_model={res.car_model}
+                  car_model_year={res.car_model_year}
+                  car_color={res.car_color}
+                  email={res.email}
+                  country={res.country}
+                  job_title={res.job_title}
+                />
+              ))}
+        </div>
+      </div>
+      {/* {count && <Pagenation count={count} page={page.page} />} */}
+      <div className="row" style={{ overflowX: "hidden" }}>
+        <div className="d-flex mb-1 mx-auto">
+          <input
+            type="button"
+            value="Previous"
+            disabled={page.page === 1 ? true : false}
+            className="pl-3 pr-3 pt-2 pb-2 mr-3 mb-5 mt-2"
+            onClick={() => {
+              dispatch(previous());
+              window.scrollTo(0, 0);
+            }}
+            style={{
+              borderRadius: "20px",
+              border: "none",
+              backgroundColor: "rgb(24, 136, 165)",
+              color: "white",
+              width: "100px",
+              height: "50px",
+              ":disabled,[disabled]": {
+                border: "1px solid #999999",
+                backgroundColor: "#cccccc",
+                color: "#666666",
+              },
+            }}
+          />
+          <input
+            onClick={() => {
+              dispatch(next());
+              window.scrollTo(0, 0);
+            }}
+            type="button"
+            value="Next"
+            disabled={page.page === count ? true : false}
+            className="pl-4 pr-4 pt-2 pb-2 mb-5 mt-2"
+            style={{
+              borderRadius: "20px",
+              border: "none",
+              backgroundColor: "rgb(24, 136, 165)",
+              color: "white",
+              width: "100px",
+              height: "50px",
+            }}
+          />
+        </div>
+      </div>
+
+      <div className="row mb-n2">
+        <div className="mx-auto row">
+          <input
+            onChange={(e) => {
+              setPageToGo(e.target.value);
+            }}
+            type="text"
+            className="pl-4 pr-4 pt-2 pb-2 mb-5 mt-2 ml-2"
+            style={{
+              borderRadius: "5px",
+              width: "100px",
+              height: "50px",
+            }}
+          />
+          <input
+            onClick={() => {
+              if (pageToGo && pageToGo <= count) {
+                dispatch(gotoPage(pageToGo));
+                window.scrollTo(0, 0);
+              }
+            }}
+            disabled={pageToGo > count ? true : false}
+            type="button"
+            value="go to page"
+            className="pt-2 pb-2 mb-5 mt-2 ml-1"
+            style={{
+              borderRadius: "20px",
+              border: "none",
+              backgroundColor: "rgb(24, 136, 165)",
+              color: "white",
+              width: "100px",
+              height: "50px",
+            }}
+          />
+        </div>
+      </div>
+      <div className="row mt-n4">
+        {count && <p className="mx-auto">{count} pages in total</p>}
+      </div>
+    </>
+  );
+};
+
+export default OwnersPage;
