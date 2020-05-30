@@ -1,6 +1,6 @@
 import request from "supertest";
 import app from "../app";
-import { connect, disconnect } from "../scripts";
+import { connect, disconnect } from "../testConnectionScripts";
 
 beforeAll(connect);
 afterAll(disconnect);
