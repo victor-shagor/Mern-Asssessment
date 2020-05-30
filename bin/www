@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+require("dotenv").config();
 
 var app = require("../app");
 var debug = require("debug")("mern-asssessment:server");
@@ -15,7 +16,7 @@ var mongoose = require("mongoose");
 var port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
-mongoose.connect(process.env.MONGO_URL, {
+mongoose.connect("mongodb://localhost:27017/mern", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
