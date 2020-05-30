@@ -2,13 +2,13 @@
 const mongodb = require("mongodb").MongoClient;
 const csvtojson = require("csvtojson");
 
-let url = "mongodb://localhost:27017/";
+let mongourl = "mongodb://localhost:27017/";
 
 const csvtoArray = async () => {
   return await csvtojson().fromFile("car_ownsers_data.csv");
 };
 
-const populte = async () => {
+export const populate = async (url = mongourl) => {
   const array = await csvtoArray();
   mongodb.connect(
     url,
@@ -28,4 +28,4 @@ const populte = async () => {
     }
   );
 };
-populte();
+populate();

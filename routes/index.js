@@ -6,11 +6,11 @@ import { capitalizeFirstLetter } from "../helper";
 /* GET home page. */
 router.get("/filter", async (req, res, next) => {
   const { start_year, end_year, gender, countries, colors } = req.body;
-
+  const upperCaseGender = gender ? capitalizeFirstLetter(gender) : "";
   const body = {
     start_year,
     end_year,
-    gender: capitalizeFirstLetter(gender),
+    gender: upperCaseGender,
     countries,
     colors,
   };
@@ -20,4 +20,4 @@ router.get("/filter", async (req, res, next) => {
   });
 });
 
-module.exports = router;
+export default router;
