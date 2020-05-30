@@ -5,7 +5,8 @@
   "scripts": {
     "start": "babel-node ./bin/www",
     "populate": "babel-node ./migrations/populate.js",
-    "test": "jest"
+    "test": "jest",
+    "heroku-postbuild": "cd client && yarn && yarn build"
   },
   "dependencies": {
     "@babel/cli": "^7.10.1",
