@@ -7,7 +7,11 @@ function App() {
   return (
     <div
       className="App"
-      style={{ overflowX: "hidden", backgroundColor: "#ECECEC" }}
+      style={{
+        overflowX: "hidden",
+        backgroundColor: "#f8f9fa",
+        minHeight: "100vh",
+      }}
     >
       <Switch>
         <Route exact path="/">

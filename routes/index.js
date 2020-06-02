@@ -6,7 +6,6 @@ import { capitalizeFirstLetter } from "../helper";
 /* GET home page. */
 router.post("/filter", async (req, res, next) => {
   const { start_year, end_year, gender, countries, colors } = req.body;
-  console.log(req.body);
   const upperCaseGender = gender ? capitalizeFirstLetter(gender) : "";
   const body = {
     start_year,
