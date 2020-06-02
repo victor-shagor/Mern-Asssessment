@@ -6,13 +6,15 @@ const CountryDiv = (props) => {
   return (
     <div
       style={{
-        backgroundColor: "#E1E1E1",
-        borderRadius: "13px",
+        backgroundColor: "#f8f9fa",
+        borderRadius: "50rem",
         fontSize: "16px",
         paddingLeft: "7px",
         paddingRight: "7px",
+        textAlign: "center",
         paddingTop: "2px",
         paddingBottom: "2px",
+        fontSize: "12px",
       }}
       className="m-2"
     >

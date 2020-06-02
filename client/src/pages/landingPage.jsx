@@ -3,11 +3,13 @@ import FilterCard from "../components/filterCard";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchFilters } from "../state/action";
 import { useHistory } from "react-router-dom";
+import CardLoader from "../components/ownerCardLoading";
 
 const LandingPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const filter = useSelector((state) => state.filter);
+  const loading = useSelector((state) => state.loading);
   useEffect(() => {
     dispatch(fetchFilters());
   }, [dispatch]);
@@ -22,14 +24,31 @@ const LandingPage = () => {
     localStorage.setItem("filterObj", JSON.stringify(filterObj));
     history.push("/carowner");
   };
+
+  let placeholders = [];
+  for (let i = 0; i < 5; i++) {
+    placeholders.push(
+      <div className="row">
+        <CardLoader width="520px" height={152} widt={520} />
+      </div>
+    );
+  }
+
   return (
     <>
-      <div className="row mt-2 ml-n5">
+      <div style={{ marginLeft: "15rem", marginTop: "2rem" }}>
         <div className="row mx-auto">
-          <i className="material-icons">filter_list</i>
-          <p className="font-weight-bold">Filter</p>
+          <i className="material-icons" style={{ fontSize: "40px" }}>
+            filter_list
+          </i>
+          <p className="h2">Filter</p>
         </div>
       </div>
+      {loading && (
+        <div className="row mt-1">
+          <div className="mx-auto">{placeholders}</div>
+        </div>
+      )}
       <div className="row mt-1">
         <div className="mx-auto">
           {filter &&
